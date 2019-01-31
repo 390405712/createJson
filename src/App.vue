@@ -19,35 +19,57 @@ export default {
   color: #2c3e50;
   /*margin-top: 60px;*/
 }
-/*---滚动条默认显示样式--*/
-::-webkit-scrollbar-thumb {
-  background-color: #E4E3E4;
-  height: 50px;
-  outline-offset: -2px;
-  outline: 2px solid #fff;
-  -webkit-border-radius: 8px;
-  /*border: 2px solid #fff;*/
+/*!*---滚动条默认显示样式--*!*/
+/*::-webkit-scrollbar-thumb {*/
+  /*background-color: #E4E3E4;*/
+  /*height: 50px;*/
+  /*outline-offset: -2px;*/
+  /*outline: 2px solid #fff;*/
+  /*-webkit-border-radius: 8px;*/
+  /*!*border: 2px solid #fff;*!*/
+/*}*/
+
+/*!*---鼠标点击滚动条显示样式--*!*/
+/*::-webkit-scrollbar-thumb:hover {*/
+  /*background-color: #409EFF;*/
+  /*height: 50px;*/
+  /*-webkit-border-radius: 8px;*/
+/*}*/
+
+/*!*---滚动条大小--*!*/
+/*::-webkit-scrollbar {*/
+  /*width: 8px;*/
+  /*height: 8px;*/
+/*}*/
+
+/*!*---滚动框背景样式--*!*/
+/*::-webkit-scrollbar-track-piece {*/
+  /*background-color: #fff;*/
+  /*-webkit-border-radius: 0;*/
+/*}*/
+
+/*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
+::-webkit-scrollbar
+{
+  width: 16px;  /*滚动条宽度*/
+  height: 16px;  /*滚动条高度*/
 }
 
-/*---鼠标点击滚动条显示样式--*/
-::-webkit-scrollbar-thumb:hover {
-  background-color: #409EFF;
-  height: 50px;
-  -webkit-border-radius: 8px;
+/*定义滚动条轨道 内阴影+圆角*/
+::-webkit-scrollbar-track
+{
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  border-radius: 10px;  /*滚动条的背景区域的圆角*/
+  background-color: red;/*滚动条的背景颜色*/
 }
 
-/*---滚动条大小--*/
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+/*定义滑块 内阴影+圆角*/
+::-webkit-scrollbar-thumb
+{
+  border-radius: 10px;  /*滚动条的圆角*/
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+  background-color: green;  /*滚动条的背景颜色*/
 }
-
-/*---滚动框背景样式--*/
-::-webkit-scrollbar-track-piece {
-  background-color: #fff;
-  -webkit-border-radius: 0;
-}
-
 body {
   background-color: #F1F5F8;
 }
