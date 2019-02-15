@@ -19,57 +19,35 @@ export default {
   color: #2c3e50;
   /*margin-top: 60px;*/
 }
-/*!*---滚动条默认显示样式--*!*/
-/*::-webkit-scrollbar-thumb {*/
-  /*background-color: #E4E3E4;*/
-  /*height: 50px;*/
-  /*outline-offset: -2px;*/
-  /*outline: 2px solid #fff;*/
-  /*-webkit-border-radius: 8px;*/
-  /*!*border: 2px solid #fff;*!*/
-/*}*/
-
-/*!*---鼠标点击滚动条显示样式--*!*/
-/*::-webkit-scrollbar-thumb:hover {*/
-  /*background-color: #409EFF;*/
-  /*height: 50px;*/
-  /*-webkit-border-radius: 8px;*/
-/*}*/
-
-/*!*---滚动条大小--*!*/
-/*::-webkit-scrollbar {*/
-  /*width: 8px;*/
-  /*height: 8px;*/
-/*}*/
-
-/*!*---滚动框背景样式--*!*/
-/*::-webkit-scrollbar-track-piece {*/
-  /*background-color: #fff;*/
-  /*-webkit-border-radius: 0;*/
-/*}*/
-
-/*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
-::-webkit-scrollbar
-{
-  width: 16px;  /*滚动条宽度*/
-  height: 16px;  /*滚动条高度*/
+/*---滚动条默认显示样式--*/
+::-webkit-scrollbar-thumb {
+  background-color: #E4E3E4;
+  height: 50px;
+  outline-offset: -2px;
+  outline: 2px solid #fff;
+  -webkit-border-radius: 8px;
+  /*border: 2px solid #fff;*/
 }
 
-/*定义滚动条轨道 内阴影+圆角*/
-::-webkit-scrollbar-track
-{
-  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-  border-radius: 10px;  /*滚动条的背景区域的圆角*/
-  background-color: red;/*滚动条的背景颜色*/
+/*---鼠标点击滚动条显示样式--*/
+::-webkit-scrollbar-thumb:hover {
+  background-color: #409EFF;
+  height: 50px;
+  -webkit-border-radius: 8px;
 }
 
-/*定义滑块 内阴影+圆角*/
-::-webkit-scrollbar-thumb
-{
-  border-radius: 10px;  /*滚动条的圆角*/
-  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
-  background-color: green;  /*滚动条的背景颜色*/
+/*---滚动条大小--*/
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
 }
+
+/*---滚动框背景样式--*/
+::-webkit-scrollbar-track-piece {
+  background-color: #fff;
+  -webkit-border-radius: 0;
+}
+
 body {
   background-color: #F1F5F8;
 }
@@ -91,15 +69,20 @@ body {
 .el-aside {
   padding: 20px 0 0 20px;
 }
-
+.el-header{
+  height: 180px!important;
+}
 #biaoti {
   font-size: 16pt;
   text-align: center;
   font-weight: bold;
   font-family: serif;
   color: #606266;
+  position: relative;
 }
-
+#biaoti .el-card__body{
+  padding: 0!important;
+}
 .el-main {
   padding: 20px 20px 0px 15px !important;
 }
@@ -181,5 +164,79 @@ tr td:last-child {
 .pro{
   height: calc(100% - 10px);
   margin: 0;
+}
+.top-img1{
+  /*width: 1920px;*/
+  height: 180px;
+  background: url(./image/top.png)center center no-repeat;
+}
+.top-img2{
+  z-index: 1;
+  width: 220px;
+  height: 105px;
+  position: absolute;
+  top: 40px;
+  left: 5%;
+  background: url(./image/top-title.png)left top no-repeat;
+}
+.top-name{
+  position: absolute;
+  color: #F45A8D;
+  font-size: 18pt;
+  width: 100%;
+  height: 50px;
+  line-height: 50px;
+  background-color: hsla(0,0%,100%,.4);
+  font-family: sans-serif;
+}
+.top-ma{
+  position: absolute;
+  width: 259px;
+  height: 174px;
+  right: 10px;
+  top: 4px;
+  background: url(./image/orcode-frame.png)left top no-repeat;
+}
+.bilibili-loading{
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+  background: url(./image/loading.gif)left top no-repeat;
+}
+#canvas{
+  width: 104px!important;
+  height: 104px!important;
+  margin-top: 28px;
+}
+.el-loading-text{
+  color:#FFAFC9!important;
+}
+.re-pro{
+  display: none;
+}
+@media screen and (max-width: 900px) {
+  .el-aside{
+    display: none!important;
+  }
+  .re-pro{
+    display: block;
+  }
+  .top-ma{
+    display: none!important;
+  }
+  .top-img2{
+    display: none!important;
+  }
+  .el-main{
+    padding: 15px 0 0!important;
+  }
+  .el-header{
+    padding: 0!important;
+  }
+  /*.top-div {*/
+    /*background: url(../img/banner.png) -86px -3px no-repeat;*/
+    /*-webkit-background-size: 170% 105%;*/
+    /*background-size: 170% 105%;*/
+  /*}*/
 }
 </style>

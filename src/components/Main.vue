@@ -2,7 +2,14 @@
   <div>
     <el-container>
       <el-header>
-        <el-card shadow="always" id="biaoti">生成json[加强美化版]3.3</el-card>
+        <el-card shadow="always" id="biaoti">
+          <div class="top-name">生成json[加强美化版]3.3</div>
+          <div class="top-img1"></div>
+          <div class="top-img2"></div>
+          <div class="top-ma">
+            <canvas id="canvas"></canvas>
+          </div>
+        </el-card>
       </el-header>
       <el-container id="content">
         <el-aside style="width:180px;">
@@ -19,6 +26,13 @@
           </transition>
         </el-aside>
         <el-main>
+          <el-card shadow="hover" class="re-pro">
+            <el-steps :active="3">
+              <el-step title="步骤 1" description="填写循环次数"></el-step>
+              <el-step title="步骤 2" description="添加对象"></el-step>
+              <el-step title="步骤 3" description="点击生成"></el-step>
+            </el-steps>
+          </el-card>
           <el-card shadow="hover">
             <template>
               <div>循环次数：{{xunhuan}}次</div>
@@ -47,7 +61,7 @@
                 <el-button size="medium" type="warning" plain slot="reference" :disabled="loading" @click="YuLan()">预览效果</el-button>
               </el-popover>
             </el-button-group>
-            <el-table v-loading="loading" element-loading-text="生成中" element-loading-background="rgba(241, 245, 248, 0.8)" stripe border :data="info" style="width: 100%">
+            <el-table v-loading="loading" element-loading-text="生成中" element-loading-spinner="bilibili-loading" element-loading-background="rgba(241, 245, 248, 0.8)" stripe border :data="info" style="width: 100%">
               <el-table-column label="ID" type="index" fixed width="50">
               </el-table-column>
               <el-table-column type="expand">
@@ -103,7 +117,7 @@
             </el-table>
           </el-card>
           <el-card shadow="hover" style="margin-bottom:8px">
-            <el-button id="btn" style="width: 100%" type="success" plain @click="isTrue('result')" :disabled="loading">生成</el-button>
+            <el-button id="btn" style="width: 100%" type="primary" plain @click="isTrue('result')" :disabled="loading">生成</el-button>
           </el-card>
         </el-main>
       </el-container>
@@ -137,7 +151,9 @@
 </template>
 
 <script>
-export default {
+  import QRCode from 'qrcode';
+
+  export default {
   data() {
     return {
       info: [
@@ -437,7 +453,12 @@ export default {
     let _self = this;
     if (window.localStorage.getItem('info')) {
       _self.info = JSON.parse(window.localStorage.getItem('info'));
-    }
+    };
+    let canvas = document.getElementById('canvas');
+    QRCode.toCanvas(canvas,window.location.href, function (error) {
+      if (error) console.error(error);
+      console.log('QRCode success!');
+    })
   }
 }
 </script>
