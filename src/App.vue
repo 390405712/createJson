@@ -1,5 +1,9 @@
 <template>
   <div id="app">
+    <el-menu :default-active="$route.path" class="el-menu-demo" mode="horizontal" router>
+      <el-menu-item index="Main">CreateJson</el-menu-item>
+      <el-menu-item index="Time">时间转换</el-menu-item>
+    </el-menu>
     <router-view/>
   </div>
 </template>
@@ -11,6 +15,10 @@ export default {
 </script>
 
 <style>
+.el-menu-demo{
+  width: calc(100% - 40px)!important;
+  margin: 0 auto 10px!important;
+}
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -168,7 +176,7 @@ tr td:last-child {
 .top-img1{
   /*width: 1920px;*/
   height: 180px;
-  background: url(./image/top.png)center center no-repeat;
+  background: url(assets/top.png)center center no-repeat;
 }
 .top-img2{
   z-index: 1;
@@ -177,7 +185,7 @@ tr td:last-child {
   position: absolute;
   top: 40px;
   left: 5%;
-  background: url(./image/top-title.png)left top no-repeat;
+  background: url(assets/top-title.png)left top no-repeat;
 }
 .top-name{
   position: absolute;
@@ -195,13 +203,13 @@ tr td:last-child {
   height: 174px;
   right: 10px;
   top: 4px;
-  background: url(./image/orcode-frame.png)left top no-repeat;
+  background: url(assets/orcode-frame.png)left top no-repeat;
 }
 .bilibili-loading{
   width: 24px;
   height: 24px;
   display: inline-block;
-  background: url(./image/loading.gif)left top no-repeat;
+  background: url(assets/loading.gif)left top no-repeat;
 }
 #canvas{
   width: 104px!important;
