@@ -4,8 +4,13 @@
       <el-header>
         <el-card shadow="always" id="biaoti">
           <div class="top-name">生成json[加强美化版]3.3</div>
-          <div class="top-img1"></div>
-          <div class="top-img2"></div>
+          <div :class="'top-img'+imgNum"></div>
+          <div class="top-title-img1">
+            <el-row>
+              <el-button size="mini" :disabled="!disabledBtn" @click="setTimerFn">开始</el-button>
+              <el-button size="mini" :disabled="disabledBtn" @click="clearTimerFn">停止</el-button>
+            </el-row>
+          </div>
           <div class="top-ma">
             <canvas id="canvas"></canvas>
           </div>
@@ -62,7 +67,7 @@
               </el-popover>
             </el-button-group>
             <el-table v-loading="loading" element-loading-text="生成中" element-loading-spinner="bilibili-loading" element-loading-background="rgba(241, 245, 248, 0.8)" stripe border :data="info" style="width: 100%">
-              <el-table-column label="ID" type="index" fixed width="50">
+              <el-table-column label="ID" type="index"  width="50">
               </el-table-column>
               <el-table-column type="expand">
                 <template slot-scope="props">
@@ -132,9 +137,8 @@
             <el-input resize="none" id="copyObj" type="textarea" :autosize="{ minRows: 2,maxRows: 15}" style="font-size: 20px;font-family: -webkit-body;" v-model="result">
             </el-input>
           </el-tab-pane>
-          <el-tab-pane label="树形式" name="1">
+          <el-tab-pane label="树形式(较卡,最多渲染一千次结果)" name="1">
             <div class="div-tree">
-              <span>最多显示循环1000次的结果,渲染过多会导致画面掉帧</span>
               <el-input size="mini" placeholder="输入关键字进行过滤" v-model="filterText">
               </el-input>
               <el-tree :data="resultJson" ref="tree" :filter-node-method="filterNode">
@@ -144,6 +148,14 @@
               <!--highlight-current-->
             </div>
           </el-tab-pane>
+          <el-tab-pane label="vue-json-viewer控件" name="2" >
+            <json-viewer style="height:480px"
+                         :value="resultView"
+                         :expand-depth=5
+                         copyable
+                         boxed
+                         sort></json-viewer>
+          </el-tab-pane>
         </el-tabs>
       </div>
     </el-dialog>
@@ -152,13 +164,20 @@
 
 <script>
   import QRCode from 'qrcode';
-
+  import service from './../services/service';
+  import Vue from 'vue'
+  import JsonViewer from 'vue-json-viewer'
+  Vue.use(JsonViewer)
+  let timer;
   export default {
   data() {
     return {
+
+      disabledBtn:true,
       info: [
         {valueName: '', value: '', type: 'string', checked: '不加变量'},
       ],
+      imgNum:0,
       xunhuan: 1,
       stringArr: 1,
       result: '[]',
@@ -182,6 +201,7 @@
       dialogVisible: false,
       loading: false,
       resultJson:[],
+      resultView:[],
       filterText: '',
       activeName: '0',
     }
@@ -252,75 +272,84 @@
     resultFun() {
       console.time('timer')
       let _self = this;
-      let num = 0;
-      let str = '';
-      let xunhuan = _self.xunhuan;
-      let info = _self.info.length;
-      let stringArr = _self.stringArr;
-      for (let n = 0; n < xunhuan; n++) {
-        for (let i = 0; i < info; i++) {
-          let data = _self.info;
-          let key = data[i].valueName;
-          let val = data[i].value;
-          let type = data[i].type;
-          let checked = data[i].checked;
-          if (checked == '不加变量') {
-            if (type == 'number') {
-              str += (i == 0 ? '  {\n    "' : '    "') + key + '":' + val + (i == info - 1 ? '' : ',\n')
-            } else if (type == 'string') {
-              str += (i == 0 ? '  {\n    "' : '    "') + key + '":"' + val + (i == info - 1 ? '"' : '",\n')
-            } else if (type == 'array[单个]') {
-              str += (i == 0 ? '  {\n    "' : '    "') + key + '":[' + val + (i == info - 1 ? ']' : '],\n')
-            } else if (type == 'array[多个]') {
-              let strArr = '';
-              for (let m = 0; m < stringArr; m++) {
-                strArr += val + (m == stringArr - 1 ? '' : ',')
-              }
-              str += (i == 0 ? '  {\n    "' : '    "') + key + '":[' + strArr + (i == info - 1 ? ']' : '],\n')
-            }
-          } else if (checked == '后面加') {
-            if (type == 'number') {
-              str += (i == 0 ? '  {\n    "' : '    "') + key + '":' + val + num + (i == info - 1 ? '' : ',\n')
-            } else if (type == 'string') {
-              str += (i == 0 ? '  {\n    "' : '    "') + key + '":"' + val + num + (i == info - 1 ? '"' : '",\n')
-            } else if (type == 'array[单个]') {
-              str += (i == 0 ? '  {\n    "' : '    "') + key + '":[' + val + num + (i == info - 1 ? ']' : '],\n')
-            } else if (type == 'array[多个]') {
-              let strArr = '';
-              for (let m = 0; m < stringArr; m++) {
-                strArr += '"' + val + m.toString() + (m == stringArr - 1 ? '"' : '",')
-              }
-              str += (i == 0 ? '  {\n    "' : '    "') + key + '":[' + strArr + (i == info - 1 ? ']' : '],\n')
-            }
-          } else {
-            if (type == 'number') {
-              val = parseInt(val) + num;
-              str += (i == 0 ? '  {\n    "' : '    "') + key + '":' + val + (i == info - 1 ? '' : ',\n')
-            } else if (type == 'string') {
-              val = parseInt(val) + num;
-              str += (i == 0 ? '  {\n    "' : '    "') + key + '":"' + val + (i == info - 1 ? '"' : '",\n')
-            } else if (type == 'array[单个]') {
-              val = parseInt(val) + num;
-              str += (i == 0 ? '  {\n    "' : '    "') + key + '":[' + val + (i == info - 1 ? ']' : '],\n')
-            } else if (type == 'array[多个]') {
-              let strArr = '';
-              val = parseInt(val);
-              for (let m = 0; m < stringArr; m++) {
-                strArr += '"' + (val + m) + (m == stringArr - 1 ? '"' : '",')
-              }
-              str += (i == 0 ? '  {\n    "' : '    "') + key + '":[' + strArr + (i == info - 1 ? ']' : '],\n')
-            }
-          }
-        }
-        str = str + (n == xunhuan - 1 ? '\r\n  }\n' : '\r\n  },\r\n');
-        num++;
-      }
-      str = "[\r\n" + str + "]";
-      _self.result = str;
-      _self.loading = false;
-      _self.dialogVisible = true
-      _self.activeName='0',
-        console.timeEnd('timer')
+      service.count(_self.xunhuan,_self.info,_self.stringArr).then(function (res) {
+        _self.result = res.data;
+        _self.resultView = JSON.parse(res.data);
+        _self.loading = false;
+        _self.dialogVisible = true
+        _self.activeName='0';
+        console.timeEnd('timer');
+      });
+      // 不请求
+      // let num = 0;
+      // let str = '';
+      // let xunhuan = _self.xunhuan;
+      // let info = _self.info.length;
+      // let stringArr = _self.stringArr;
+      // for (let n = 0; n < xunhuan; n++) {
+      //   for (let i = 0; i < info; i++) {
+      //     let data = _self.info;
+      //     let key = data[i].valueName;
+      //     let val = data[i].value;
+      //     let type = data[i].type;
+      //     let checked = data[i].checked;
+      //     if (checked == '不加变量') {
+      //       if (type == 'number') {
+      //         str += (i == 0 ? '  {\n    "' : '    "') + key + '":' + val + (i == info - 1 ? '' : ',\n')
+      //       } else if (type == 'string') {
+      //         str += (i == 0 ? '  {\n    "' : '    "') + key + '":"' + val + (i == info - 1 ? '"' : '",\n')
+      //       } else if (type == 'array[单个]') {
+      //         str += (i == 0 ? '  {\n    "' : '    "') + key + '":[' + val + (i == info - 1 ? ']' : '],\n')
+      //       } else if (type == 'array[多个]') {
+      //         let strArr = '';
+      //         for (let m = 0; m < stringArr; m++) {
+      //           strArr += val + (m == stringArr - 1 ? '' : ',')
+      //         }
+      //         str += (i == 0 ? '  {\n    "' : '    "') + key + '":[' + strArr + (i == info - 1 ? ']' : '],\n')
+      //       }
+      //     } else if (checked == '后面加') {
+      //       if (type == 'number') {
+      //         str += (i == 0 ? '  {\n    "' : '    "') + key + '":' + val + num + (i == info - 1 ? '' : ',\n')
+      //       } else if (type == 'string') {
+      //         str += (i == 0 ? '  {\n    "' : '    "') + key + '":"' + val + num + (i == info - 1 ? '"' : '",\n')
+      //       } else if (type == 'array[单个]') {
+      //         str += (i == 0 ? '  {\n    "' : '    "') + key + '":[' + val + num + (i == info - 1 ? ']' : '],\n')
+      //       } else if (type == 'array[多个]') {
+      //         let strArr = '';
+      //         for (let m = 0; m < stringArr; m++) {
+      //           strArr += '"' + val + m.toString() + (m == stringArr - 1 ? '"' : '",')
+      //         }
+      //         str += (i == 0 ? '  {\n    "' : '    "') + key + '":[' + strArr + (i == info - 1 ? ']' : '],\n')
+      //       }
+      //     } else {
+      //       if (type == 'number') {
+      //         val = parseInt(val) + num;
+      //         str += (i == 0 ? '  {\n    "' : '    "') + key + '":' + val + (i == info - 1 ? '' : ',\n')
+      //       } else if (type == 'string') {
+      //         val = parseInt(val) + num;
+      //         str += (i == 0 ? '  {\n    "' : '    "') + key + '":"' + val + (i == info - 1 ? '"' : '",\n')
+      //       } else if (type == 'array[单个]') {
+      //         val = parseInt(val) + num;
+      //         str += (i == 0 ? '  {\n    "' : '    "') + key + '":[' + val + (i == info - 1 ? ']' : '],\n')
+      //       } else if (type == 'array[多个]') {
+      //         let strArr = '';
+      //         val = parseInt(val);
+      //         for (let m = 0; m < stringArr; m++) {
+      //           strArr += '"' + (val + m) + (m == stringArr - 1 ? '"' : '",')
+      //         }
+      //         str += (i == 0 ? '  {\n    "' : '    "') + key + '":[' + strArr + (i == info - 1 ? ']' : '],\n')
+      //       }
+      //     }
+      //   }
+      //   str = str + (n == xunhuan - 1 ? '\r\n  }\n' : '\r\n  },\r\n');
+      //   num++;
+      // }
+      // str = "[\r\n" + str + "]";
+      // _self.result = str;
+      // _self.loading = false;
+      // _self.dialogVisible = true
+      // _self.activeName='0',
+      //   console.timeEnd('timer')
     },
     isTrue(value) {
       let _self = this;
@@ -386,71 +415,94 @@
     },
     YuLan() {
       let _self = this;
-      let num = 0;
-      let str = '';
-      let yulanNum = 3;
-      for (let n = 0; n < 2; n++) {
-        for (let i = 0; i < _self.info.length; i++) {
-          let data = _self.info;
-          let key = data[i].valueName;
-          let val = data[i].value;
-          if (data[i].checked == '不加变量') {
-            if (data[i].type == 'number') {
-              str += (i == 0 ? '  {\n    "' : '    "') + key + '":' + val + (i == _self.info.length - 1 ? '' : ',\n')
-            } else if (data[i].type == 'string') {
-              str += (i == 0 ? '  {\n    "' : '    "') + key + '":"' + val + (i == _self.info.length - 1 ? '"' : '",\n')
-            } else if (data[i].type == 'array[单个]') {
-              str += (i == 0 ? '  {\n    "' : '    "') + key + '":[' + val + (i == _self.info.length - 1 ? ']' : '],\n')
-            } else if (data[i].type == 'array[多个]') {
-              let strArr = '';
-              for (let m = 0; m < yulanNum; m++) {
-                strArr += val + (m == yulanNum - 1 ? '' : ',')
-              }
-              str += (i == 0 ? '  {\n    "' : '    "') + key + '":[' + strArr + (i == _self.info.length - 1 ? ']' : '],\n')
-            }
-          } else if (data[i].checked == '后面加') {
-            if (data[i].type == 'number') {
-              str += (i == 0 ? '  {\n    "' : '    "') + key + '":' + val + num + (i == _self.info.length - 1 ? '' : ',\n')
-            } else if (data[i].type == 'string') {
-              str += (i == 0 ? '  {\n    "' : '    "') + key + '":"' + val + num + (i == _self.info.length - 1 ? '"' : '",\n')
-            } else if (data[i].type == 'array[单个]') {
-              str += (i == 0 ? '  {\n    "' : '    "') + key + '":[' + val + num + (i == _self.info.length - 1 ? ']' : '],\n')
-            } else if (data[i].type == 'array[多个]') {
-              let strArr = '';
-              for (let m = 0; m < yulanNum; m++) {
-                strArr += '"' + val + m.toString() + (m == yulanNum - 1 ? '"' : '",')
-              }
-              str += (i == 0 ? '  {\n    "' : '    "') + key + '":[' + strArr + (i == _self.info.length - 1 ? ']' : '],\n')
-            }
-          } else {
-            if (data[i].type == 'number') {
-              val = parseInt(val) + num;
-              str += (i == 0 ? '  {\n    "' : '    "') + key + '":' + val + (i == _self.info.length - 1 ? '' : ',\n')
-            } else if (data[i].type == 'string') {
-              val = parseInt(val) + num;
-              str += (i == 0 ? '  {\n    "' : '    "') + key + '":"' + val + (i == _self.info.length - 1 ? '"' : '",\n')
-            } else if (data[i].type == 'array[单个]') {
-              val = parseInt(val) + num;
-              str += (i == 0 ? '  {\n    "' : '    "') + key + '":[' + val + (i == _self.info.length - 1 ? ']' : '],\n')
-            } else if (data[i].type == 'array[多个]') {
-              let strArr = '';
-              val = parseInt(val);
-              for (let m = 0; m < yulanNum; m++) {
-                strArr += '"' + (val + m) + (m == yulanNum - 1 ? '"' : '",')
-              }
-              str += (i == 0 ? '  {\n    "' : '    "') + key + '":[' + strArr + (i == _self.info.length - 1 ? ']' : '],\n')
-            }
-          }
-        }
-        str = str + (n == 2 - 1 ? '\r\n  }\n' : '\r\n  },\r\n');
-        num++;
-      }
-      str = "[\r\n" + str + "]";
-      _self.result = str;
+      console.log(_self.info);
+      service.yulan(JSON.stringify(_self.info)).then(function (res) {
+        console.log(2);
+        _self.result = res.data;
+      });
+      // 不请求
+      // let num = 0;
+      // let str = '';
+      // let yulanNum = 3;
+      // for (let n = 0; n < 2; n++) {
+      //   for (let i = 0; i < _self.info.length; i++) {
+      //     let data = _self.info;
+      //     let key = data[i].valueName;
+      //     let val = data[i].value;
+      //     if (data[i].checked == '不加变量') {
+      //       if (data[i].type == 'number') {
+      //         str += (i == 0 ? '  {\n    "' : '    "') + key + '":' + val + (i == _self.info.length - 1 ? '' : ',\n')
+      //       } else if (data[i].type == 'string') {
+      //         str += (i == 0 ? '  {\n    "' : '    "') + key + '":"' + val + (i == _self.info.length - 1 ? '"' : '",\n')
+      //       } else if (data[i].type == 'array[单个]') {
+      //         str += (i == 0 ? '  {\n    "' : '    "') + key + '":[' + val + (i == _self.info.length - 1 ? ']' : '],\n')
+      //       } else if (data[i].type == 'array[多个]') {
+      //         let strArr = '';
+      //         for (let m = 0; m < yulanNum; m++) {
+      //           strArr += val + (m == yulanNum - 1 ? '' : ',')
+      //         }
+      //         str += (i == 0 ? '  {\n    "' : '    "') + key + '":[' + strArr + (i == _self.info.length - 1 ? ']' : '],\n')
+      //       }
+      //     } else if (data[i].checked == '后面加') {
+      //       if (data[i].type == 'number') {
+      //         str += (i == 0 ? '  {\n    "' : '    "') + key + '":' + val + num + (i == _self.info.length - 1 ? '' : ',\n')
+      //       } else if (data[i].type == 'string') {
+      //         str += (i == 0 ? '  {\n    "' : '    "') + key + '":"' + val + num + (i == _self.info.length - 1 ? '"' : '",\n')
+      //       } else if (data[i].type == 'array[单个]') {
+      //         str += (i == 0 ? '  {\n    "' : '    "') + key + '":[' + val + num + (i == _self.info.length - 1 ? ']' : '],\n')
+      //       } else if (data[i].type == 'array[多个]') {
+      //         let strArr = '';
+      //         for (let m = 0; m < yulanNum; m++) {
+      //           strArr += '"' + val + m.toString() + (m == yulanNum - 1 ? '"' : '",')
+      //         }
+      //         str += (i == 0 ? '  {\n    "' : '    "') + key + '":[' + strArr + (i == _self.info.length - 1 ? ']' : '],\n')
+      //       }
+      //     } else {
+      //       if (data[i].type == 'number') {
+      //         val = parseInt(val) + num;
+      //         str += (i == 0 ? '  {\n    "' : '    "') + key + '":' + val + (i == _self.info.length - 1 ? '' : ',\n')
+      //       } else if (data[i].type == 'string') {
+      //         val = parseInt(val) + num;
+      //         str += (i == 0 ? '  {\n    "' : '    "') + key + '":"' + val + (i == _self.info.length - 1 ? '"' : '",\n')
+      //       } else if (data[i].type == 'array[单个]') {
+      //         val = parseInt(val) + num;
+      //         str += (i == 0 ? '  {\n    "' : '    "') + key + '":[' + val + (i == _self.info.length - 1 ? ']' : '],\n')
+      //       } else if (data[i].type == 'array[多个]') {
+      //         let strArr = '';
+      //         val = parseInt(val);
+      //         for (let m = 0; m < yulanNum; m++) {
+      //           strArr += '"' + (val + m) + (m == yulanNum - 1 ? '"' : '",')
+      //         }
+      //         str += (i == 0 ? '  {\n    "' : '    "') + key + '":[' + strArr + (i == _self.info.length - 1 ? ']' : '],\n')
+      //       }
+      //     }
+      //   }
+      //   str = str + (n == 2 - 1 ? '\r\n  }\n' : '\r\n  },\r\n');
+      //   num++;
+      // }
+      // str = "[\r\n" + str + "]";
+      // _self.result = str;
     },
+    randomNum (min, max) {
+      return Math.floor(Math.random() * (max - min) + min)
+    },
+    setTimerFn(){
+      let _self = this;
+      _self.disabledBtn = !_self.disabledBtn;
+      timer = setInterval(function () {
+        _self.imgNum = _self.randomNum(0, 8)
+        // console.log(_self.imgNum);
+      },1000)
+    },
+    clearTimerFn(){
+      let _self = this;
+      _self.disabledBtn = !_self.disabledBtn;
+      clearInterval(timer)
+    }
   },
   mounted() {
     let _self = this;
+    // _self.setTimerFn();
     if (window.localStorage.getItem('info')) {
       _self.info = JSON.parse(window.localStorage.getItem('info'));
     };
@@ -458,7 +510,8 @@
     QRCode.toCanvas(canvas,window.location.href, function (error) {
       if (error) console.error(error);
       console.log('QRCode success!');
-    })
+    });
+    _self.imgNum = _self.randomNum(0, 8)
   }
 }
 </script>

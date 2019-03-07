@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Main from '@/components/Main'
+import createJson from '@/components/createJson'
 import Time from '@/components/Time'
+import Nodejs from '@/components/Nodejs'
 
 Vue.use(Router)
 
@@ -9,18 +10,32 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Main',
-      component: Main
+      name: 'createJson',
+      component: createJson
     },
     {
-      path: '/Main',
-      name: 'Main',
-      component: Main
+      path: '/createJson',
+      name: 'createJson',
+      component: createJson,
+      meta:{
+        keepAlive:false
+      }
     },
     {
       path: '/Time',
       name: 'Time',
-      component: Time
+      component: Time,
+      meta:{
+        keepAlive:true
+      }
+    },
+    {
+      path: '/Nodejs',
+      name: 'Nodejs',
+      component: Nodejs,
+      meta:{
+        keepAlive:true
+      }
     },
   ]
 })
