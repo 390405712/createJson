@@ -7,7 +7,8 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import echarts from 'echarts'
 import rules from './assets/rules'
-
+import JsonViewer from 'vue-json-viewer'
+Vue.use(JsonViewer)
 Vue.prototype.$rules = rules;
 Vue.prototype.$echarts = echarts
 Vue.use(ElementUI);
