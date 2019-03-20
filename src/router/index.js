@@ -5,24 +5,28 @@ import time from '@/views/time'
 import nodejs from '@/views/nodejs'
 import home from '@/views/home'
 import login from '@/views/login'
+import excel from '@/views/excel'
 
 Vue.use(Router)
 
 export default new Router({
+  // mode: 'history',
   routes: [
     {
       path: '/',
       name: 'login',
       component: login,
+      keepAlive:false,
+      // redirect: '/?'
     },
     {
       path: '/home',
       name: 'home',
       component: home,
-      redirect: '/createJson',
+      keepAlive:false,
       children:[
         {
-          path: '/createJson',
+          path: '/',
           name: 'createJson',
           component: createJson,
           meta:{
@@ -41,6 +45,14 @@ export default new Router({
           path: '/nodejs',
           name: 'nodejs',
           component: nodejs,
+          meta:{
+            keepAlive:false
+          }
+        },
+        {
+          path: '/excel',
+          name: 'excel',
+          component: excel,
           meta:{
             keepAlive:false
           }

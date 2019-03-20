@@ -160,19 +160,9 @@
         let _self = this;
         _self.$refs[formName].validate((valid) => {
           if (valid) {
-            _self.loading = true;
-            setTimeout(function () {
-              _self.loading = false;
-                _self.$message({
-                  message: '登录成功',
-                  type: 'success'
-                });
-                setTimeout(function () {
-                  _self.$router.push({
-                    name: 'home'
-                  });
-                },1000)
-            },2000)
+              _self.$router.push({
+                name: 'home'
+              });
             // let data = {
             //   phone:_self.ruleForm.phone,
             //   code:_self.ruleForm.phoneIdentify,
@@ -444,42 +434,42 @@
     margin-top: 8px;
   }
   .phone-icon{
-    margin: 8px 0 0 6px!important;
+    margin: 8px 0 0 8px!important;
     display: inline-block!important;
     width: 16px!important;
     height: 22px!important;
     background: url(../image/phone.png)right top no-repeat!important;
   }
   .phone-icon-true{
-    margin: 8px 0 0 6px!important;
+    margin: 8px 0 0 8px!important;
     display: inline-block!important;
     width: 16px!important;
     height: 22px!important;
     background: url(../image/phone-true.png)right top no-repeat!important;
   }
   .phone-icon-false{
-    margin: 8px 0 0 6px!important;
+    margin: 8px 0 0 8px!important;
     display: inline-block!important;
     width: 16px!important;
     height: 22px!important;
     background: url(../image/phone-false.png)right top no-repeat!important;
   }
   .verification-icon{
-    margin: 6px 0 0 0px;
+    margin: 6px 0 0 4px;
     display: inline-block;
     width: 22px;
     height: 26px;
     background: url(../image/verification.png)right top no-repeat;
   }
   .verification-icon-true{
-    margin: 6px 0 0 0px;
+    margin: 6px 0 0 4px;
     display: inline-block;
     width: 22px;
     height: 26px;
     background: url(../image/verification-true.png)right top no-repeat;
   }
   .verification-icon-false{
-    margin: 6px 0 0 0px;
+    margin: 6px 0 0 4px;
     display: inline-block;
     width: 22px;
     height: 26px;
@@ -562,7 +552,10 @@
     /*right: 0;*/
     /*top: 0px;*/
   }
-  #identifyCode .el-input-group__append, .el-input-group__prepend{
+  #identifyCode .el-input-group__append{
     padding: 0!important;
+  }
+  .login .el-input--prefix .el-input__inner {
+    padding-left: 40px!important;
   }
 </style>

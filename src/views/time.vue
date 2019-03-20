@@ -21,13 +21,13 @@
             <span>输出结果</span>
           </div>
           <el-table :data="resultTime" style="width: 100%">
-            <el-table-column prop="id" label="id">
+            <el-table-column prop="id" label="id" show-overflow-tooltip>
             </el-table-column>
-            <el-table-column prop="start" label="开始时间">
+            <el-table-column prop="start" label="开始时间" show-overflow-tooltip>
             </el-table-column>
-            <el-table-column prop="end" label="结束时间">
+            <el-table-column prop="end" label="结束时间" show-overflow-tooltip>
             </el-table-column>
-            <el-table-column prop="time" label="相差">
+            <el-table-column prop="time" label="相差" show-overflow-tooltip>
             </el-table-column>
           </el-table>
         </el-card>

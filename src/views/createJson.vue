@@ -216,8 +216,8 @@
         let newArr = [];
         // let idNum = 0;
         let arrLength = _self.xunhuan;
-        if(arrLength>1000){
-          arrLength = 1000
+        if(arrLength>100){
+          arrLength = 100
         }
         for(let i = 0;i<arrLength;i++){
           // idNum++
@@ -244,7 +244,8 @@
         }]
       }else if(tab.index=='2'){
         let _self = this;
-        _self.resultView = JSON.parse(_self.result);
+        let arr  = JSON.parse(_self.result).slice(0,100)
+        _self.resultView = arr;
       }
     },
     // getCheckedNodes() {
@@ -267,83 +268,83 @@
     resultFun() {
       console.time('timer')
       let _self = this;
-      service.count(_self.xunhuan,_self.info,_self.stringArr).then(function (res) {
-        _self.result = res.data;
-        _self.loading = false;
-        _self.dialogVisible = true
-        _self.activeName='0';
-        console.timeEnd('timer');
-      });
+      // service.count(_self.xunhuan,_self.info,_self.stringArr).then(function (res) {
+      //   _self.result = res.data;
+      //   _self.loading = false;
+      //   _self.dialogVisible = true
+      //   _self.activeName='0';
+      //   console.timeEnd('timer');
+      // });
       // 不请求
-      // let num = 0;
-      // let str = '';
-      // let xunhuan = _self.xunhuan;
-      // let info = _self.info.length;
-      // let stringArr = _self.stringArr;
-      // for (let n = 0; n < xunhuan; n++) {
-      //   for (let i = 0; i < info; i++) {
-      //     let data = _self.info;
-      //     let key = data[i].valueName;
-      //     let val = data[i].value;
-      //     let type = data[i].type;
-      //     let checked = data[i].checked;
-      //     if (checked == '不加变量') {
-      //       if (type == 'number') {
-      //         str += (i == 0 ? '  {\n    "' : '    "') + key + '":' + val + (i == info - 1 ? '' : ',\n')
-      //       } else if (type == 'string') {
-      //         str += (i == 0 ? '  {\n    "' : '    "') + key + '":"' + val + (i == info - 1 ? '"' : '",\n')
-      //       } else if (type == 'array[单个]') {
-      //         str += (i == 0 ? '  {\n    "' : '    "') + key + '":[' + val + (i == info - 1 ? ']' : '],\n')
-      //       } else if (type == 'array[多个]') {
-      //         let strArr = '';
-      //         for (let m = 0; m < stringArr; m++) {
-      //           strArr += val + (m == stringArr - 1 ? '' : ',')
-      //         }
-      //         str += (i == 0 ? '  {\n    "' : '    "') + key + '":[' + strArr + (i == info - 1 ? ']' : '],\n')
-      //       }
-      //     } else if (checked == '后面加') {
-      //       if (type == 'number') {
-      //         str += (i == 0 ? '  {\n    "' : '    "') + key + '":' + val + num + (i == info - 1 ? '' : ',\n')
-      //       } else if (type == 'string') {
-      //         str += (i == 0 ? '  {\n    "' : '    "') + key + '":"' + val + num + (i == info - 1 ? '"' : '",\n')
-      //       } else if (type == 'array[单个]') {
-      //         str += (i == 0 ? '  {\n    "' : '    "') + key + '":[' + val + num + (i == info - 1 ? ']' : '],\n')
-      //       } else if (type == 'array[多个]') {
-      //         let strArr = '';
-      //         for (let m = 0; m < stringArr; m++) {
-      //           strArr += '"' + val + m.toString() + (m == stringArr - 1 ? '"' : '",')
-      //         }
-      //         str += (i == 0 ? '  {\n    "' : '    "') + key + '":[' + strArr + (i == info - 1 ? ']' : '],\n')
-      //       }
-      //     } else {
-      //       if (type == 'number') {
-      //         val = parseInt(val) + num;
-      //         str += (i == 0 ? '  {\n    "' : '    "') + key + '":' + val + (i == info - 1 ? '' : ',\n')
-      //       } else if (type == 'string') {
-      //         val = parseInt(val) + num;
-      //         str += (i == 0 ? '  {\n    "' : '    "') + key + '":"' + val + (i == info - 1 ? '"' : '",\n')
-      //       } else if (type == 'array[单个]') {
-      //         val = parseInt(val) + num;
-      //         str += (i == 0 ? '  {\n    "' : '    "') + key + '":[' + val + (i == info - 1 ? ']' : '],\n')
-      //       } else if (type == 'array[多个]') {
-      //         let strArr = '';
-      //         val = parseInt(val);
-      //         for (let m = 0; m < stringArr; m++) {
-      //           strArr += '"' + (val + m) + (m == stringArr - 1 ? '"' : '",')
-      //         }
-      //         str += (i == 0 ? '  {\n    "' : '    "') + key + '":[' + strArr + (i == info - 1 ? ']' : '],\n')
-      //       }
-      //     }
-      //   }
-      //   str = str + (n == xunhuan - 1 ? '\r\n  }\n' : '\r\n  },\r\n');
-      //   num++;
-      // }
-      // str = "[\r\n" + str + "]";
-      // _self.result = str;
-      // _self.loading = false;
-      // _self.dialogVisible = true
-      // _self.activeName='0',
-      //   console.timeEnd('timer')
+      let num = 0;
+      let str = '';
+      let xunhuan = _self.xunhuan;
+      let info = _self.info.length;
+      let stringArr = _self.stringArr;
+      for (let n = 0; n < xunhuan; n++) {
+        for (let i = 0; i < info; i++) {
+          let data = _self.info;
+          let key = data[i].valueName;
+          let val = data[i].value;
+          let type = data[i].type;
+          let checked = data[i].checked;
+          if (checked == '不加变量') {
+            if (type == 'number') {
+              str += (i == 0 ? '  {\n    "' : '    "') + key + '":' + val + (i == info - 1 ? '' : ',\n')
+            } else if (type == 'string') {
+              str += (i == 0 ? '  {\n    "' : '    "') + key + '":"' + val + (i == info - 1 ? '"' : '",\n')
+            } else if (type == 'array[单个]') {
+              str += (i == 0 ? '  {\n    "' : '    "') + key + '":[' + val + (i == info - 1 ? ']' : '],\n')
+            } else if (type == 'array[多个]') {
+              let strArr = '';
+              for (let m = 0; m < stringArr; m++) {
+                strArr += val + (m == stringArr - 1 ? '' : ',')
+              }
+              str += (i == 0 ? '  {\n    "' : '    "') + key + '":[' + strArr + (i == info - 1 ? ']' : '],\n')
+            }
+          } else if (checked == '后面加') {
+            if (type == 'number') {
+              str += (i == 0 ? '  {\n    "' : '    "') + key + '":' + val + num + (i == info - 1 ? '' : ',\n')
+            } else if (type == 'string') {
+              str += (i == 0 ? '  {\n    "' : '    "') + key + '":"' + val + num + (i == info - 1 ? '"' : '",\n')
+            } else if (type == 'array[单个]') {
+              str += (i == 0 ? '  {\n    "' : '    "') + key + '":[' + val + num + (i == info - 1 ? ']' : '],\n')
+            } else if (type == 'array[多个]') {
+              let strArr = '';
+              for (let m = 0; m < stringArr; m++) {
+                strArr += '"' + val + m.toString() + (m == stringArr - 1 ? '"' : '",')
+              }
+              str += (i == 0 ? '  {\n    "' : '    "') + key + '":[' + strArr + (i == info - 1 ? ']' : '],\n')
+            }
+          } else {
+            if (type == 'number') {
+              val = parseInt(val) + num;
+              str += (i == 0 ? '  {\n    "' : '    "') + key + '":' + val + (i == info - 1 ? '' : ',\n')
+            } else if (type == 'string') {
+              val = parseInt(val) + num;
+              str += (i == 0 ? '  {\n    "' : '    "') + key + '":"' + val + (i == info - 1 ? '"' : '",\n')
+            } else if (type == 'array[单个]') {
+              val = parseInt(val) + num;
+              str += (i == 0 ? '  {\n    "' : '    "') + key + '":[' + val + (i == info - 1 ? ']' : '],\n')
+            } else if (type == 'array[多个]') {
+              let strArr = '';
+              val = parseInt(val);
+              for (let m = 0; m < stringArr; m++) {
+                strArr += '"' + (val + m) + (m == stringArr - 1 ? '"' : '",')
+              }
+              str += (i == 0 ? '  {\n    "' : '    "') + key + '":[' + strArr + (i == info - 1 ? ']' : '],\n')
+            }
+          }
+        }
+        str = str + (n == xunhuan - 1 ? '\r\n  }\n' : '\r\n  },\r\n');
+        num++;
+      }
+      str = "[\r\n" + str + "]";
+      _self.result = str;
+      _self.loading = false;
+      _self.dialogVisible = true
+      _self.activeName='0',
+        console.timeEnd('timer')
     },
     isTrue(value) {
       let _self = this;
@@ -409,73 +410,73 @@
     },
     YuLan() {
       let _self = this;
-      console.log(_self.info);
-      service.yulan(JSON.stringify(_self.info)).then(function (res) {
-        console.log(2);
-        _self.result = res.data;
-      });
+      // console.log(_self.info);
+      // service.yulan(JSON.stringify(_self.info)).then(function (res) {
+      //   console.log(2);
+      //   _self.result = res.data;
+      // });
       // 不请求
-      // let num = 0;
-      // let str = '';
-      // let yulanNum = 3;
-      // for (let n = 0; n < 2; n++) {
-      //   for (let i = 0; i < _self.info.length; i++) {
-      //     let data = _self.info;
-      //     let key = data[i].valueName;
-      //     let val = data[i].value;
-      //     if (data[i].checked == '不加变量') {
-      //       if (data[i].type == 'number') {
-      //         str += (i == 0 ? '  {\n    "' : '    "') + key + '":' + val + (i == _self.info.length - 1 ? '' : ',\n')
-      //       } else if (data[i].type == 'string') {
-      //         str += (i == 0 ? '  {\n    "' : '    "') + key + '":"' + val + (i == _self.info.length - 1 ? '"' : '",\n')
-      //       } else if (data[i].type == 'array[单个]') {
-      //         str += (i == 0 ? '  {\n    "' : '    "') + key + '":[' + val + (i == _self.info.length - 1 ? ']' : '],\n')
-      //       } else if (data[i].type == 'array[多个]') {
-      //         let strArr = '';
-      //         for (let m = 0; m < yulanNum; m++) {
-      //           strArr += val + (m == yulanNum - 1 ? '' : ',')
-      //         }
-      //         str += (i == 0 ? '  {\n    "' : '    "') + key + '":[' + strArr + (i == _self.info.length - 1 ? ']' : '],\n')
-      //       }
-      //     } else if (data[i].checked == '后面加') {
-      //       if (data[i].type == 'number') {
-      //         str += (i == 0 ? '  {\n    "' : '    "') + key + '":' + val + num + (i == _self.info.length - 1 ? '' : ',\n')
-      //       } else if (data[i].type == 'string') {
-      //         str += (i == 0 ? '  {\n    "' : '    "') + key + '":"' + val + num + (i == _self.info.length - 1 ? '"' : '",\n')
-      //       } else if (data[i].type == 'array[单个]') {
-      //         str += (i == 0 ? '  {\n    "' : '    "') + key + '":[' + val + num + (i == _self.info.length - 1 ? ']' : '],\n')
-      //       } else if (data[i].type == 'array[多个]') {
-      //         let strArr = '';
-      //         for (let m = 0; m < yulanNum; m++) {
-      //           strArr += '"' + val + m.toString() + (m == yulanNum - 1 ? '"' : '",')
-      //         }
-      //         str += (i == 0 ? '  {\n    "' : '    "') + key + '":[' + strArr + (i == _self.info.length - 1 ? ']' : '],\n')
-      //       }
-      //     } else {
-      //       if (data[i].type == 'number') {
-      //         val = parseInt(val) + num;
-      //         str += (i == 0 ? '  {\n    "' : '    "') + key + '":' + val + (i == _self.info.length - 1 ? '' : ',\n')
-      //       } else if (data[i].type == 'string') {
-      //         val = parseInt(val) + num;
-      //         str += (i == 0 ? '  {\n    "' : '    "') + key + '":"' + val + (i == _self.info.length - 1 ? '"' : '",\n')
-      //       } else if (data[i].type == 'array[单个]') {
-      //         val = parseInt(val) + num;
-      //         str += (i == 0 ? '  {\n    "' : '    "') + key + '":[' + val + (i == _self.info.length - 1 ? ']' : '],\n')
-      //       } else if (data[i].type == 'array[多个]') {
-      //         let strArr = '';
-      //         val = parseInt(val);
-      //         for (let m = 0; m < yulanNum; m++) {
-      //           strArr += '"' + (val + m) + (m == yulanNum - 1 ? '"' : '",')
-      //         }
-      //         str += (i == 0 ? '  {\n    "' : '    "') + key + '":[' + strArr + (i == _self.info.length - 1 ? ']' : '],\n')
-      //       }
-      //     }
-      //   }
-      //   str = str + (n == 2 - 1 ? '\r\n  }\n' : '\r\n  },\r\n');
-      //   num++;
-      // }
-      // str = "[\r\n" + str + "]";
-      // _self.result = str;
+      let num = 0;
+      let str = '';
+      let yulanNum = 3;
+      for (let n = 0; n < 2; n++) {
+        for (let i = 0; i < _self.info.length; i++) {
+          let data = _self.info;
+          let key = data[i].valueName;
+          let val = data[i].value;
+          if (data[i].checked == '不加变量') {
+            if (data[i].type == 'number') {
+              str += (i == 0 ? '  {\n    "' : '    "') + key + '":' + val + (i == _self.info.length - 1 ? '' : ',\n')
+            } else if (data[i].type == 'string') {
+              str += (i == 0 ? '  {\n    "' : '    "') + key + '":"' + val + (i == _self.info.length - 1 ? '"' : '",\n')
+            } else if (data[i].type == 'array[单个]') {
+              str += (i == 0 ? '  {\n    "' : '    "') + key + '":[' + val + (i == _self.info.length - 1 ? ']' : '],\n')
+            } else if (data[i].type == 'array[多个]') {
+              let strArr = '';
+              for (let m = 0; m < yulanNum; m++) {
+                strArr += val + (m == yulanNum - 1 ? '' : ',')
+              }
+              str += (i == 0 ? '  {\n    "' : '    "') + key + '":[' + strArr + (i == _self.info.length - 1 ? ']' : '],\n')
+            }
+          } else if (data[i].checked == '后面加') {
+            if (data[i].type == 'number') {
+              str += (i == 0 ? '  {\n    "' : '    "') + key + '":' + val + num + (i == _self.info.length - 1 ? '' : ',\n')
+            } else if (data[i].type == 'string') {
+              str += (i == 0 ? '  {\n    "' : '    "') + key + '":"' + val + num + (i == _self.info.length - 1 ? '"' : '",\n')
+            } else if (data[i].type == 'array[单个]') {
+              str += (i == 0 ? '  {\n    "' : '    "') + key + '":[' + val + num + (i == _self.info.length - 1 ? ']' : '],\n')
+            } else if (data[i].type == 'array[多个]') {
+              let strArr = '';
+              for (let m = 0; m < yulanNum; m++) {
+                strArr += '"' + val + m.toString() + (m == yulanNum - 1 ? '"' : '",')
+              }
+              str += (i == 0 ? '  {\n    "' : '    "') + key + '":[' + strArr + (i == _self.info.length - 1 ? ']' : '],\n')
+            }
+          } else {
+            if (data[i].type == 'number') {
+              val = parseInt(val) + num;
+              str += (i == 0 ? '  {\n    "' : '    "') + key + '":' + val + (i == _self.info.length - 1 ? '' : ',\n')
+            } else if (data[i].type == 'string') {
+              val = parseInt(val) + num;
+              str += (i == 0 ? '  {\n    "' : '    "') + key + '":"' + val + (i == _self.info.length - 1 ? '"' : '",\n')
+            } else if (data[i].type == 'array[单个]') {
+              val = parseInt(val) + num;
+              str += (i == 0 ? '  {\n    "' : '    "') + key + '":[' + val + (i == _self.info.length - 1 ? ']' : '],\n')
+            } else if (data[i].type == 'array[多个]') {
+              let strArr = '';
+              val = parseInt(val);
+              for (let m = 0; m < yulanNum; m++) {
+                strArr += '"' + (val + m) + (m == yulanNum - 1 ? '"' : '",')
+              }
+              str += (i == 0 ? '  {\n    "' : '    "') + key + '":[' + strArr + (i == _self.info.length - 1 ? ']' : '],\n')
+            }
+          }
+        }
+        str = str + (n == 2 - 1 ? '\r\n  }\n' : '\r\n  },\r\n');
+        num++;
+      }
+      str = "[\r\n" + str + "]";
+      _self.result = str;
     },
     randomNum (min, max) {
       return Math.floor(Math.random() * (max - min) + min)

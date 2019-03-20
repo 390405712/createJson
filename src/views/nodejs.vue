@@ -43,13 +43,13 @@
         <el-card class="box-card">
           <div>
             <el-table :data="tableData" style="margin-bottom: 10px">
-              <el-table-column prop="date" label="日期" width="180">
+              <el-table-column prop="date" label="日期" width="180" show-overflow-tooltip>
               </el-table-column>
-              <el-table-column prop="name" label="姓名" width="180">
+              <el-table-column prop="name" label="姓名" width="180" show-overflow-tooltip>
               </el-table-column>
-              <el-table-column prop="address" label="地址">
+              <el-table-column prop="address" label="地址" show-overflow-tooltip>
               </el-table-column>
-              <el-table-column label="操作">
+              <el-table-column label="操作" show-overflow-tooltip>
                 <template slot-scope="scope">
                   <el-popover :ref="'edit'+scope.$index" placement="left" width="250" trigger="click">
                     <el-form :ref="'editForm'+scope.$index" :model="form" size="small">
@@ -66,7 +66,7 @@
                       <el-button size="small" style="width: 100%" type="primary" @click="submitForm('editForm'+scope.$index)">保存</el-button>
                     </el-form>
                   </el-popover>
-                  <el-button v-popover="'edit'+scope.$index" icon="el-icon-edit" type="primary"
+                  <el-button v-popover="'edit'+scope.$index" icon="el-icon-edit"
                              size="mini" @click="edit(scope.$index, scope.row,)"></el-button>
                   <el-popover :ref="'del'+scope.$index" width="50" trigger="click">
                     <p>确定删除这条数据吗？</p>
@@ -88,7 +88,7 @@
         </el-card>
       </el-col>
       <el-col>
-        <el-card class="box-card">
+        <el-card class="box-card" style="padding: 0!important;">
           <echarts :type="'line'" :chartsName = "chartsName" :chartsData="chartsData" :name="'接口花费时间'" :height="'370px'" :width="'100%'"></echarts>
         </el-card>
       </el-col>

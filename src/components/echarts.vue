@@ -7,7 +7,7 @@
 
 <script>
   import vEcharts from 'echarts'
-  import './../assets/dark'
+  import './../assets/shine'
   export default {
     name: "echarts",
     components:{
@@ -36,7 +36,7 @@
       getData(chartsName,chartsData,name) {
         let _self = this;
         if(_self.type == 'line'){
-          let myChart1 = this.$echarts.init(document.getElementById('myChart1'),'dark');
+          let myChart1 = this.$echarts.init(document.getElementById('myChart1'),'shine');
           myChart1.setOption({
             tooltip: {
               trigger: 'axis',
@@ -119,7 +119,7 @@
           }
         }
         else if(_self.type == 'bar'){
-          let myChart2 = this.$echarts.init(document.getElementById('myChart2'),'dark');
+          let myChart2 = this.$echarts.init(document.getElementById('myChart2'),'shine');
           myChart2.setOption({
             tooltip : {
               trigger: 'axis',

@@ -4,10 +4,12 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import ElementUI from 'element-ui';
-import 'element-ui/lib/theme-chalk/index.css';
+// import 'element-ui/lib/theme-chalk/index.css';
+import 'element-ui/lib/theme-my/index.css';
 import echarts from 'echarts'
 import rules from './assets/rules'
 import JsonViewer from 'vue-json-viewer'
+import store from './vuex'
 Vue.use(JsonViewer)
 Vue.prototype.$rules = rules;
 Vue.prototype.$echarts = echarts
@@ -19,5 +21,6 @@ new Vue({
   el: '#app',
   router,
   components: { App },
-  template: '<App/>'
+  template: '<App/>',
+  store
 })

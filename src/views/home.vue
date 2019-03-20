@@ -1,9 +1,10 @@
 <template>
   <div>
     <el-menu :default-active="$route.path" class="el-menu-demo" mode="horizontal" router>
-      <el-menu-item index="createJson">CreateJson</el-menu-item>
+      <el-menu-item index="home">json生成</el-menu-item>
       <el-menu-item index="time">时间转换</el-menu-item>
-      <el-menu-item index="nodejs">Nodejs</el-menu-item>
+      <el-menu-item index="nodejs">nodejs测试</el-menu-item>
+      <el-menu-item index="excel">excel数据处理</el-menu-item>
     </el-menu>
     <keep-alive>
       <router-view v-if="$route.meta.keepAlive"></router-view>
@@ -47,7 +48,7 @@
 
   /*---鼠标点击滚动条显示样式--*/
   ::-webkit-scrollbar-thumb:hover {
-    background-color: #409EFF;
+    background-color: #FA7298;
     height: 50px;
     -webkit-border-radius: 8px;
   }
