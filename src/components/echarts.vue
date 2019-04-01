@@ -14,8 +14,12 @@
       vEcharts
     },
     props:{
-      chartsName:[],
-      chartsData:[],
+      chartsName:{
+        default:[]
+      },
+      chartsData:{
+        default:[]
+      },
       name:'',
       width:{
         default:'100%'

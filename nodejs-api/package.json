@@ -18,7 +18,8 @@
     "koa-response-time": "^1.0.2",
     "koa-router": "^7.1.0",
     "koa-static": "^2.1.0",
-    "monk": "^6.0.6"
+    "monk": "^6.0.6",
+    "cross-env": "^3.1.4"
   },
   "devDependencies": {
     "babel-core": "^6.21.0",
@@ -26,7 +27,6 @@
     "babel-polyfill": "^6.20.0",
     "babel-preset-es2015": "^6.18.0",
     "babel-preset-stage-2": "^6.18.0",
-    "cross-env": "^3.1.4",
     "nodemon": "^1.11.0"
   }
 }

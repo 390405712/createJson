@@ -1,9 +1,9 @@
 <template>
   <div class="login">
-    <div class="login-top">
-      <!--<div class="login-top-logo"/>-->
-      <!--<div class="login-top-title">Lee</div>-->
-    </div>
+    <!--<div class="login-top">-->
+    <!--<div class="login-top-logo"/>-->
+    <!--<div class="login-top-title">Lee</div>-->
+    <!--</div>-->
     <div class="login-main">
       <div class="login-main-left"/>
       <div class="login-main-right">
@@ -21,7 +21,7 @@
             </div>
           </div>
           <div class="form-center">
-            <el-form :model="ruleForm" ref="ruleForm" label-width="0px" class="demo-ruleForm">
+            <el-form :model="ruleForm" ref="ruleForm" label-width="0px" class="demo-ruleForm" @submit.native.prevent>
               <el-form-item label="" prop="phone" :rules="rules.phone">
                 <el-input :prefix-icon="{'phone-icon':phoneIcon == '','phone-icon-true':phoneIcon == '0','phone-icon-false':phoneIcon == '1' }" maxlength="11" v-model="ruleForm.phone" placeholder="请输入手机号"></el-input>
               </el-form-item>
@@ -48,7 +48,16 @@
                 </el-input>
               </el-form-item>
               <el-form-item>
-                <el-button class="login-btn" :disabled="loading" type="primary" native-type="submit" @click="submitForm('ruleForm')" >登录</el-button>
+                <div style="display: flex;justify-content: center">
+                  <puzzle  width="260"
+                           height="120"
+                           pl-size="30"
+                           deviation="5"
+                           :puzzle-img-list="imgList"/>
+                </div>
+              </el-form-item>
+              <el-form-item>
+                <el-button class="login-btn" :disabled="loading" type="primary"  native-type="submit" @click="submitForm('ruleForm')" >登录</el-button>
               </el-form-item>
             </el-form>
           </div>
@@ -83,10 +92,12 @@
 <script>
   import service from '../services/service';
   import identify from '../components/identify'
+  import puzzle from '../components/puzzle'
   import QRCode from 'qrcode';
   export default {
     components:{
-      identify
+      identify,
+      puzzle
     },
     data() {
       const phone = (rule, value, callback) => {
@@ -126,6 +137,20 @@
         }
       };
       return {
+        imgList: [
+          // require('./../image/ver.png'),
+          // require('./../image/ver-1.png'),
+          // require('./../image/ver-2.png'),
+          // require('./../image/ver-3.png'),
+          // require('./../image/top0.png'),
+          // require('./../image/top1.png'),
+          // require('./../image/top2.png'),
+          require('./../image/top3.png'),
+          require('./../image/top4.png'),
+          require('./../image/top5.png'),
+          require('./../image/top6.png'),
+          require('./../image/top7.png'),
+        ],
         phoneIcon:'',
         imgIdentifyIcon: '',
         phoneIdentifyIcon:'',
@@ -160,9 +185,13 @@
         let _self = this;
         _self.$refs[formName].validate((valid) => {
           if (valid) {
-              _self.$router.push({
-                name: 'home'
+              _self.$message({
+                message: '验证通过',
+                type: 'success'
               });
+              // _self.$router.push({
+              //   name: 'home'
+              // });
             // let data = {
             //   phone:_self.ruleForm.phone,
             //   code:_self.ruleForm.phoneIdentify,
@@ -255,19 +284,23 @@
 </script>
 
 <style>
-
   html, body, #app {
     margin: 0;
     height: 100%;
     width: 100%;
   }
   .login{
-    min-width: 1000px;
-    height: 100%;
-    width: 100%;
+    min-width: 1375px;
+    min-height: 775px;
+    height:calc(100vh - 81px);
+    width: calc(100% - 40px);
+    display: flex;
+    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
     /*background-size: 100% 100%;*/
     background-size:cover;
-    background: url(../image/login.png)0 0 no-repeat;
+    background-image: url(../image/login0.png);
   }
   .login-top{
     display: flex;
@@ -292,16 +325,21 @@
     display: flex;
     align-items: center;
     justify-content: center;
+
+    /*background: linear-gradient(white, white) padding-box, repeating-linear-gradient(-45deg, red 0, red 12.5%, transparent 0, transparent 25%, #58a 0, #58a 37.5%, transparent 0, transparent 50%) 0 / 5em 5em;*/
+    /*background:repeating-linear-gradient(-45deg, #4092f1 0, #85d2f1 12.5%, transparent 0, transparent 25%, #00a5c3 0, #51c7da 37.5%, transparent 0, transparent 50%) 0 / 5em 5em;*/
+    border: 10px solid transparent;
+    background: repeating-linear-gradient(-45deg, #4092f1 0%, #85d2f1 25.5%, transparent 0, transparent 25.5%, #00a5c3 0, #51c7da 50.5%, transparent 0, transparent 50.5%) 0 / 15em 15em;
   }
   .login-main-left{
     width: 803px;
-    height: 773px;
-    background: url(../image/main.png)left top no-repeat;
+    height: 650px;
+    background-image: url(../image/main.png);
   }
   .login-main-right{
     position: relative;
     width: 477px;
-    height: 773px;
+    height: 650px;
     background-color:#f9f9f9;
     padding:18px 27px 18px 0 ;
     box-sizing: border-box;
@@ -321,11 +359,11 @@
     justify-content: space-between;
   }
   .form-top-left{
-    padding:36px 0 0 26px ;
+    padding:15px 0 0 25px;
   }
   .form-top-left-title1{
     font-family: MicrosoftYaHei;
-    font-size: 38px;
+    font-size: 30px;
     font-weight: normal;
     font-stretch: normal;
     letter-spacing: 0px;
@@ -405,8 +443,8 @@
     background: url(../image/form.png)60% 50% no-repeat;
   }
   .form-center{
-    width: 100%;
-    padding: 63px 42px 65px 68px;
+    width: calc(100% - 80px);
+    margin: 20px auto;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
@@ -424,13 +462,13 @@
   }
   .login-btn{
     width: 100%;
-    height: 46px;
-    border-radius: 6px;font-family: MicrosoftYaHei;
-    font-size: 18px;
-    font-weight: normal;
-    font-stretch: normal;
-    letter-spacing: 0px;
-    color: #ffffff;
+    /*height: 46px;*/
+    /*border-radius: 6px;font-family: MicrosoftYaHei;*/
+    /*font-size: 18px;*/
+    /*font-weight: normal;*/
+    /*font-stretch: normal;*/
+    /*letter-spacing: 0px;*/
+    /*color: #ffffff;*/
     margin-top: 8px;
   }
   .phone-icon{
@@ -482,7 +520,7 @@
     /*padding: 0 0 10px 36px;*/
   /*}*/
   .el-form-item {
-    margin-bottom: 46px;
+    margin-bottom: 15px;
   }
   .code-btn{
     width: 121px!important;
@@ -557,5 +595,10 @@
   }
   .login .el-input--prefix .el-input__inner {
     padding-left: 40px!important;
+  }
+  .login .el-input{
+    /*border: 5px solid transparent;*/
+    /*background: repeating-linear-gradient(-45deg, #4092f1 0%, #85d2f1 58.5%, transparent 0, transparent 17.5%, #00a5c3 0, #51c7da 59.5%, transparent 0, transparent 50.5%) 0 / 1em 1em;*/
+    border-radius: 5px;
   }
 </style>

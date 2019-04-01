@@ -64,7 +64,7 @@
          time:''
        },
        chartsName:[],
-       chartsName:[],
+       chartsData:[],
        resultTime:[],
        echartsOptions1: {},
        echartsOptions2: {},

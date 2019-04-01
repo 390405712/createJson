@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="createJson">
     <el-container>
       <el-header>
         <el-card shadow="always" id="biaoti">

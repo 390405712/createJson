@@ -3,7 +3,7 @@ import development from './development'
 import production from './production'
 import test from './test'
 
-export const env = process.env.NODE_ENV || 'development'
+export const env = process.env.NODE_ENV || 'production'
 
 const configs = {
   development: development,

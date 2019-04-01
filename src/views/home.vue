@@ -1,10 +1,12 @@
 <template>
   <div>
     <el-menu :default-active="$route.path" class="el-menu-demo" mode="horizontal" router>
-      <el-menu-item index="home">json生成</el-menu-item>
+      <el-menu-item index="login">登录页</el-menu-item>
+      <el-menu-item index="createJson">json生成</el-menu-item>
       <el-menu-item index="time">时间转换</el-menu-item>
       <el-menu-item index="nodejs">nodejs测试</el-menu-item>
       <el-menu-item index="excel">excel数据处理</el-menu-item>
+      <el-menu-item index="cloudMusic">cloudMusic</el-menu-item>
     </el-menu>
     <keep-alive>
       <router-view v-if="$route.meta.keepAlive"></router-view>
@@ -87,7 +89,7 @@
     padding: 20px 0 0 20px;
   }
 
-  .el-header {
+  .createJson .el-header {
     height: 180px !important;
   }
 
