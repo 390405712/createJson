@@ -1,4 +1,4 @@
-const port = Number.parseInt(process.env.PORT) || 3000;
+const port = Number.parseInt(process.env.PORT) || 8888;
 
 export default {
   port: port,

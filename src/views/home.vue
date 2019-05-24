@@ -3,15 +3,22 @@
     <el-menu :default-active="$route.path" class="el-menu-demo" mode="horizontal" router>
       <el-menu-item index="login">登录页</el-menu-item>
       <el-menu-item index="createJson">json生成</el-menu-item>
+      <el-menu-item index="excel">excel数据处理</el-menu-item>
       <el-menu-item index="time">时间转换</el-menu-item>
       <el-menu-item index="nodejs">nodejs测试</el-menu-item>
-      <el-menu-item index="excel">excel数据处理</el-menu-item>
       <el-menu-item index="cloudMusic">cloudMusic</el-menu-item>
+<!--      <el-menu-item index="appAdmin">appAdmin</el-menu-item>-->
+      <el-menu-item index="appUser">appUser</el-menu-item>
     </el-menu>
-    <keep-alive>
-      <router-view v-if="$route.meta.keepAlive"></router-view>
-    </keep-alive>
-    <router-view></router-view>
+    <transition name="transitionBottom">
+      <keep-alive>
+        <router-view v-if="$route.meta.keepAlive"></router-view>
+      </keep-alive>
+    </transition>
+    <transition name="transitionBottom">
+      <router-view v-if="!$route.meta.keepAlive"></router-view>
+    </transition>
+
   </div>
 </template>
 
@@ -24,7 +31,31 @@
   body{
     margin: 0;
   }
+  .transitionBottom-enter-active,
+  .transitionLeft-enter-active {
+    transition: all .5s ease;
+  }
+  .transitionBottom-leave-active,
+  .transitionLeft-leave-active {
+    transition: all .1s cubic-bezier(2.0, 0.5, 0.8, 1.0);
+  }
+
+  .transitionBottom, .transitionLeft {
+    position: absolute;
+    left: 0;
+    right: 0;
+  }
+
+  .transitionBottom-enter,
+  .transitionBottom-leave {
+    transform: translateY(-100px);
+    left: 0;
+    right: 0;
+    opacity: 0;
+  }
+
   .el-menu-demo {
+    z-index: 1;
     width: calc(100% - 40px) !important;
     margin: 0 auto 10px !important;
   }
@@ -193,109 +224,6 @@
     height: calc(100% - 10px);
     margin: 0;
   }
-
-  .top-img0 {
-    /*width: 1920px;*/
-    height: 180px;
-    background: url(../image/top0.png) center center no-repeat;
-  }
-
-  .top-img1 {
-    /*width: 1920px;*/
-    height: 180px;
-    background: url(../image/top1.png) center center no-repeat;
-  }
-
-  .top-img2 {
-    /*width: 1920px;*/
-    height: 180px;
-    background: url(../image/top2.png) center center no-repeat;
-  }
-
-  .top-img3 {
-    /*width: 1920px;*/
-    height: 180px;
-    background: url(../image/top3.png) center center no-repeat;
-  }
-
-  .top-img4 {
-    /*width: 1920px;*/
-    height: 180px;
-    background: url(../image/top4.png) center center no-repeat;
-  }
-
-  .top-img5 {
-    /*width: 1920px;*/
-    height: 180px;
-    background: url(../image/top5.png) center center no-repeat;
-  }
-
-  .top-img6 {
-    /*width: 1920px;*/
-    height: 180px;
-    background: url(../image/top6.png) center center no-repeat;
-  }
-
-  .top-img7 {
-    /*width: 1920px;*/
-    height: 180px;
-    background: url(../image/top7.png) center center no-repeat;
-  }
-  /*.top-img8 {*/
-    /*!*width: 1920px;*!*/
-    /*height: 180px;*/
-    /*background: url(image/top8.png) center center no-repeat;*/
-  /*}*/
-  /*.top-img9 {*/
-    /*!*width: 1920px;*!*/
-    /*height: 180px;*/
-    /*background: url(image/top9.png) center center no-repeat;*/
-  /*}*/
-  /*.top-img10 {*/
-    /*!*width: 1920px;*!*/
-    /*height: 180px;*/
-    /*background: url(image/top10.png) center center no-repeat;*/
-  /*}*/
-  /*.top-img11 {*/
-    /*!*width: 1920px;*!*/
-    /*height: 180px;*/
-    /*background: url(image/top11.png) center center no-repeat;*/
-  /*}*/
-  /*.top-img12 {*/
-    /*!*width: 1920px;*!*/
-    /*height: 180px;*/
-    /*background: url(image/top12.png) center center no-repeat;*/
-  /*}*/
-  /*.top-img13 {*/
-    /*!*width: 1920px;*!*/
-    /*height: 180px;*/
-    /*background: url(image/top13.png) center center no-repeat;*/
-  /*}*/
-  /*.top-img14 {*/
-    /*!*width: 1920px;*!*/
-    /*height: 180px;*/
-    /*background: url(image/top14.png) center center no-repeat;*/
-  /*}*/
-  /*.top-img15 {*/
-    /*!*width: 1920px;*!*/
-    /*height: 180px;*/
-    /*background: url(image/top15.png) center center no-repeat;*/
-  /*}*/
-  /*.top-img16 {*/
-    /*!*width: 1920px;*!*/
-    /*height: 180px;*/
-    /*background: url(image/top16.png) center center no-repeat;*/
-  /*}*/
-  /*.top-img17 {*/
-    /*!*width: 1920px;*!*/
-    /*height: 180px;*/
-    /*background: url(image/top17.png) center center no-repeat;*/
-  /*}*/
-  /*.top-img18 {*/
-    /*!*width: 1920px;*!*/
-    /*height: 180px;*/
-    /*background: url(image/top18.png) center center no-repeat;*/
-  /*}*/
 
   .top-title-img1 {
     z-index: 1;

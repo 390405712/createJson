@@ -1,12 +1,11 @@
 import xhr from './../services/xhr';
 const env = process.env.NODE_ENV || 'development'
 let url;
-// if(env == 'production'){
-  url = 'http://123.207.121.59:3000/api';
-// }else{
-//   url = 'http://localhost:5000';
-//
-// }
+if(env == 'production'){
+  url = 'http://123.207.121.59:8888';
+}else{
+  url = 'http://localhost:3000';
+}
 
 let service = {
   count: function (xunhuan,info,stringArr) {

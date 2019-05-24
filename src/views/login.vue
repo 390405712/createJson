@@ -52,8 +52,7 @@
                   <puzzle  width="260"
                            height="120"
                            pl-size="30"
-                           deviation="5"
-                           :puzzle-img-list="imgList"/>
+                           deviation="5"/>
                 </div>
               </el-form-item>
               <el-form-item>
@@ -94,6 +93,7 @@
   import identify from '../components/identify'
   import puzzle from '../components/puzzle'
   import QRCode from 'qrcode';
+  let $ = require('jquery');
   export default {
     components:{
       identify,
@@ -137,20 +137,13 @@
         }
       };
       return {
-        imgList: [
-          // require('./../image/ver.png'),
-          // require('./../image/ver-1.png'),
-          // require('./../image/ver-2.png'),
-          // require('./../image/ver-3.png'),
-          // require('./../image/top0.png'),
-          // require('./../image/top1.png'),
-          // require('./../image/top2.png'),
-          require('./../image/top3.png'),
-          require('./../image/top4.png'),
-          require('./../image/top5.png'),
-          require('./../image/top6.png'),
-          require('./../image/top7.png'),
-        ],
+        // imgList: [
+        //   require('./../image/top5.png'),
+        //   require('./../image/top6.png'),
+        //   require('./../image/top7.png'),
+        //   require('./../image/top8.png'),
+        //   require('./../image/top9.png'),
+        // ],
         phoneIcon:'',
         imgIdentifyIcon: '',
         phoneIdentifyIcon:'',
@@ -279,6 +272,32 @@
       // var emails = users.forEach(function (user,index) { return user.email; });
       // console.log(emails.join(","));
       // console.log(emails);
+      let params = {
+        session_id: "8jzBe5ZDBLCZUoV0O12m7GIBEBPAvfIX",
+        verify_code: "om81"
+      }
+      $.ajax({
+        type: 'get',
+        traditional: true,
+        url: 'http://cmapi.emicmh.com:9000/enterprise/my_enterpises?per_page=0',
+        headers: {
+          'Cache-Control': 'no-cache',
+          'Connection': 'keep-alive',
+          'Host': 'cmapi.emicmh.com:9000',
+          'nonce': 'lq8tOQHtd7ugeqWIZmotMntuza5LNLdL',
+          'Origin': 'http://a.emicmh.com:9000',
+          'Pragma': 'no-cache',
+          'Referer': 'http://a.emicmh.com:9000/',
+          'source': 'client.web',
+          'token': 'c13e70ad0faeee3c1a30b933d0119ba4df8b9dbee3cf287162a39011347cf0d7',
+        },
+        // data: params,
+        contentType: 'application/json',
+        dataType: 'json',
+        success:function (res) {
+
+        },
+      });
     }
   }
 </script>
@@ -292,8 +311,10 @@
   .login{
     min-width: 1375px;
     min-height: 775px;
-    height:calc(100vh - 81px);
-    width: calc(100% - 40px);
+    /*height:calc(100vh - 81px);*/
+    height:calc(100vh);
+    /*width: calc(100% - 40px);*/
+    width: calc(100%);
     display: flex;
     margin: 0 auto;
     justify-content: center;

@@ -1,57 +1,92 @@
 <template>
-  <div class="excel">
-    <input type="file" @change="importFile(this)" id="imFile" style="display: none"
-           accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
-    <a id="downlink"></a>
-    <el-button class="button" @click="uploadFile()">导入</el-button>
-    <el-button class="button" @click="downloadFile(excelData)">导出</el-button>
-    <el-popover placement="top" width="350" v-model="visible">
-      <div>
-        <div v-for="(item , indexs ) in inputArr"  stle="display: flex">
-          <el-input size="small" style="margin-right: 10px" v-model="item.value" placeholder="请输入关键字">
-            <template slot="prepend">第{{indexs+1}}个关键字</template>
-            <template slot="append">
-              <el-button size="small" type="danger" v-if="inputArr.length>1" class="button" @click="delInputArr(indexs)">删除</el-button>
-            </template>
-          </el-input>
-        </div>
-        <el-button style="width: 100%" size="small" class="button" @click="addInputArr()">添加</el-button>
-      </div>
-      <div style="text-align: right; margin: 0">
-        <el-button size="small" type="text" @click="visible = false">关闭</el-button>
-        <el-button type="primary" size="small" @click="startChangeData()">开始换行</el-button>
-      </div>
-      <el-button class="button" slot="reference" style="margin-left: 10px">配置</el-button>
-    </el-popover>
-    <!--错误信息提示-->
-    <el-dialog title="提示" v-model="errorDialog" size="tiny">
-      <span>{{errorMsg}}</span>
-      <span slot="footer" class="dialog-footer">
+  <el-card style="width: calc(100% - 40px);margin: 0 auto; height: calc(100vh - 90px);">
+    <el-tabs v-model="activeName" style="height: 100%;">
+      <el-tab-pane label="json转excel" name="first">
+        <el-button type="primary" size="small" @click="dialogVisible2 = true">生成</el-button>
+        <el-button type="primary" size="small" @click="exportExcel">导出</el-button>
+
+        <el-table :data="secondTableData" tooltip-effect="dark" id="out-table" style="height: calc(100vh - 210px);overflow: auto;">
+          <template v-for="(col ,index) in secondTableProp">
+            <el-table-column  :prop="col" :label="col" show-overflow-tooltip></el-table-column>
+          </template>
+        </el-table>
+
+      </el-tab-pane>
+      <el-tab-pane label="单元格数据换行" name="second">
+        <div class="excel">
+          <input type="file" @change="importFile(this)" id="imFile" style="display: none"
+                 accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
+          <a id="downlink"></a>
+          <el-button class="button" @click="uploadFile()">导入</el-button>
+          <el-button class="button" @click="downloadFile(excelData)">导出</el-button>
+          <el-popover placement="top" width="350" v-model="visible">
+            <div>
+              <div v-for="(item , indexs ) in inputArr"  stle="display: flex">
+                <el-input size="small" style="margin-right: 10px" v-model="item.value" placeholder="请输入关键字">
+                  <template slot="prepend">第{{indexs+1}}个关键字</template>
+                  <template slot="append">
+                    <el-button size="small" type="danger" v-if="inputArr.length>1" class="button" @click="delInputArr(indexs)">删除</el-button>
+                  </template>
+                </el-input>
+              </div>
+              <el-button style="width: 100%" size="small" class="button" @click="addInputArr()">添加</el-button>
+            </div>
+            <div style="text-align: right; margin: 0">
+              <el-button size="small" type="text" @click="visible = false">关闭</el-button>
+              <el-button type="primary" size="small" @click="startChangeData()">开始换行</el-button>
+            </div>
+            <el-button class="button" slot="reference" style="margin-left: 10px">配置</el-button>
+          </el-popover>
+          <!--错误信息提示-->
+          <el-dialog title="提示" v-model="errorDialog" size="tiny">
+            <span>{{errorMsg}}</span>
+            <span slot="footer" class="dialog-footer">
           <el-button type="primary" @click="errorDialog=false">确认</el-button>
         </span>
+          </el-dialog>
+          <!--展示导入信息-->
+          <el-table :data="excelData" tooltip-effect="dark">
+            <template v-for="(col ,index) in tableProp">
+              <el-table-column  :prop="col" :label="col" show-overflow-tooltip></el-table-column>
+            </template>
+          </el-table>
+          <el-dialog title="选择表名" :visible.sync="dialogVisible" width="30%">
+            <div style="display:flex;justify-content: center">
+              <el-button v-for="(value, key, index) in tableObj" class="button" @click="selectTable(index)">
+                {{ index+1 }}. {{ key }}
+              </el-button>
+            </div>
+          </el-dialog>
+        </div>
+      </el-tab-pane>
+    </el-tabs>
+    <el-dialog
+      title="粘贴数据"
+      :visible.sync="dialogVisible2"
+      width="400px"
+      :before-close="handleClose">
+      <el-input
+        type="textarea"
+        :rows="15"
+        placeholder="请输入内容"
+        v-model="textarea">
+      </el-input>
+      <span slot="footer" class="dialog-footer">
+        <el-button size="medium" type="primary" @click="createSecondTabData">生 成</el-button>
+      </span>
     </el-dialog>
-    <!--展示导入信息-->
-    <el-table :data="excelData" tooltip-effect="dark">
-      <template v-for="(col ,index) in tableProp">
-        <el-table-column  :prop="col" :label="col" show-overflow-tooltip></el-table-column>
-      </template>
-    </el-table>
-    <el-dialog title="选择表名" :visible.sync="dialogVisible" width="30%">
-      <div style="display:flex;justify-content: center">
-        <el-button v-for="(value, key, index) in tableObj" class="button" @click="selectTable(index)">
-          {{ index+1 }}. {{ key }}
-        </el-button>
-      </div>
-    </el-dialog>
-  </div>
+  </el-card>
 </template>
 
 <script>
-  let XLSX = require('xlsx')
+  import FileSaver from 'file-saver'
+  import XLSX from 'xlsx'
+  // let XLSX = require('xlsx')
   export default {
     name: 'Index',
     data () {
       return {
+        activeName: 'first',
         inputArr:[
           {value:''},
         ],
@@ -66,6 +101,11 @@
         dialogVisible:false,
         wb:'',
         tableProp:[],
+
+        textarea:'',
+        secondTableData:[],
+        secondTableProp:[],
+        dialogVisible2:false,
       }
     },
     mounted () {
@@ -73,6 +113,25 @@
       this.outFile = document.getElementById('downlink')
     },
     methods: {
+      exportExcel () {
+        /* generate workbook object from table */
+        var wb = XLSX.utils.table_to_book(document.querySelector('#out-table'))
+        /* get binary string as output */
+        var wbout = XLSX.write(wb, { bookType: 'xlsx', bookSST: true, type: 'array' })
+        try {
+          FileSaver.saveAs(new Blob([wbout], { type: 'application/octet-stream' }), 'sheetjs.xlsx')
+        } catch (e) { if (typeof console !== 'undefined') console.log(e, wbout) }
+        return wbout
+      },
+      createSecondTabData(){
+        let _self = this;
+        _self.secondTableData = JSON.parse(_self.textarea);
+        _self.dialogVisible2 = false;
+        for(let i in _self.secondTableData[0]){
+          _self.secondTableProp.push(i);
+        }
+      },
+
       startChangeData:function(){
         for(let i in this.inputArr){
           if(this.inputArr[i].value == ''){

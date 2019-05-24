@@ -1,12 +1,23 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import createJson from '@/views/createJson'
-import time from '@/views/time'
-import nodejs from '@/views/nodejs'
-import home from '@/views/home'
-import login from '@/views/login'
-import excel from '@/views/excel'
-import cloudMusic from '@/views/cloudMusic'
+
+const createJson       = () =>import('@/views/createJson');
+const time             = () =>import('@/views/time');
+const nodejs           = () =>import('@/views/nodejs');
+const home             = () =>import('@/views/home');
+const login            = () =>import('@/views/login');
+const excel            = () =>import('@/views/excel');
+const cloudMusic       = () =>import('@/views/cloudMusic');
+
+const appAdmin         = () =>import('@/views/appAdmin');
+const appUser          = () =>import('@/views/appUser');
+const appLogin         = () =>import('@/views/appLogin');
+const adminHouse       = () =>import('@/views/appAdmin/adminHouse');
+const adminUser        = () =>import('@/views/appAdmin/adminUser');
+const adminAppointment = () =>import('@/views/appAdmin/adminAppointment');
+
+const userHouse        = () =>import('@/views/appUser/userHouse');
+const userHome         = () =>import('@/views/appUser/userHome');
 
 Vue.use(Router)
 
@@ -26,22 +37,22 @@ export default new Router({
       name: 'home',
       component: home,
       redirect: '/login',
-      keepAlive:false,
+      // redirect: '/appUser',
       children:[
         {
           path: '/login',
           name: 'login',
           component: login,
           meta:{
-            keepAlive:false
+            keepAlive:true
           }
         },
-          {
+        {
           path: '/createJson',
           name: 'createJson',
           component: createJson,
           meta:{
-            keepAlive:false
+            keepAlive:true
           }
         },
         {
@@ -49,7 +60,7 @@ export default new Router({
           name: 'time',
           component: time,
           meta:{
-            keepAlive:false
+            keepAlive:true
           }
         },
         {
@@ -57,7 +68,7 @@ export default new Router({
           name: 'nodejs',
           component: nodejs,
           meta:{
-            keepAlive:false
+            keepAlive:true
           }
         },
         {
@@ -65,7 +76,7 @@ export default new Router({
           name: 'excel',
           component: excel,
           meta:{
-            keepAlive:false
+            keepAlive:true
           }
         },
         {
@@ -73,8 +84,78 @@ export default new Router({
           name: 'cloudMusic',
           component: cloudMusic,
           meta:{
-            keepAlive:false
+            keepAlive:true
           }
+        },
+        {
+          path: '/appLogin',
+          name: 'appLogin',
+          component: appLogin,
+          meta:{
+            keepAlive:true
+          },
+        },
+        {
+          path: '/appAdmin',
+          name: 'appAdmin',
+          component: appAdmin,
+          redirect: '/adminHouse',
+          meta:{
+            keepAlive:true
+          },
+          children:[
+            {
+              path: '/adminHouse',
+              name: 'adminHouse',
+              component: adminHouse,
+              meta:{
+                keepAlive:false
+              }
+            },
+            {
+              path: '/adminUser',
+              name: 'adminUser',
+              component: adminUser,
+              meta:{
+                keepAlive:false
+              }
+            },
+           {
+              path: '/adminAppointment',
+              name: 'adminAppointment',
+              component: adminAppointment,
+              meta:{
+                keepAlive:false
+              }
+            },
+          ]
+        },
+        {
+          path: '/appUser',
+          name: 'appUser',
+          component: appUser,
+          redirect: '/userHouse',
+          meta:{
+            keepAlive:true
+          },
+          children:[
+            {
+              path: '/userHouse',
+              name: 'userHouse',
+              component: userHouse,
+              meta:{
+                keepAlive:true
+              }
+            },
+            {
+              path: '/userHome',
+              name: 'userHome',
+              component: userHome,
+              meta:{
+                keepAlive:false
+              }
+            },
+          ]
         },
       ]
     },

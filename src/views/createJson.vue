@@ -4,7 +4,10 @@
       <el-header>
         <el-card shadow="always" id="biaoti">
           <div class="top-name">json生成工具</div>
-          <div :class="'top-img'+imgNum"></div>
+          <el-image
+            style="width: 100%; height: 180px"
+            :src="require('./../image/top'+imgNum+'.png')"
+            :fit="'cover'"></el-image>
           <div class="top-title-img1">
             <el-row>
               <el-button size="mini" :disabled="!disabledBtn" @click="setTimerFn">开始</el-button>
@@ -485,7 +488,7 @@
       let _self = this;
       _self.disabledBtn = !_self.disabledBtn;
       timer = setInterval(function () {
-        _self.imgNum = _self.randomNum(0, 8)
+        _self.imgNum = _self.randomNum(0,5)
         // console.log(_self.imgNum);
       },100)
     },
@@ -506,7 +509,7 @@
       if (error) console.error(error);
       console.log('QRCode success!');
     });
-    _self.imgNum = _self.randomNum(0, 8)
+    _self.imgNum = _self.randomNum(0,9)
   }
 }
 </script>
