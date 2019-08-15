@@ -8,6 +8,8 @@ const home             = () =>import('@/views/home');
 const login            = () =>import('@/views/login');
 const excel            = () =>import('@/views/excel');
 const cloudMusic       = () =>import('@/views/cloudMusic');
+const sortTemplate     = () =>import('@/views/sortTemplate');
+const sortSpeed     = () =>import('@/views/sortSpeed');
 
 const appAdmin         = () =>import('@/views/appAdmin');
 const appUser          = () =>import('@/views/appUser');
@@ -18,6 +20,7 @@ const adminAppointment = () =>import('@/views/appAdmin/adminAppointment');
 
 const userHouse        = () =>import('@/views/appUser/userHouse');
 const userHome         = () =>import('@/views/appUser/userHome');
+const koa2         = () =>import('@/views/koa2');
 
 Vue.use(Router)
 
@@ -83,6 +86,22 @@ export default new Router({
           path: '/cloudMusic',
           name: 'cloudMusic',
           component: cloudMusic,
+          meta:{
+            keepAlive:true
+          }
+        },
+        {
+          path: '/sortTemplate',
+          name: 'sortTemplate',
+          component: sortTemplate,
+          meta:{
+            keepAlive:true
+          }
+        },
+        {
+          path: '/sortSpeed',
+          name: 'sortSpeed',
+          component: sortSpeed,
           meta:{
             keepAlive:true
           }
@@ -156,6 +175,14 @@ export default new Router({
               }
             },
           ]
+        },
+        {
+          path: '/koa2',
+          name: 'koa2',
+          component: koa2,
+          meta:{
+            keepAlive:true
+          }
         },
       ]
     },

@@ -7,8 +7,11 @@
       <el-menu-item index="time">时间转换</el-menu-item>
       <el-menu-item index="nodejs">nodejs测试</el-menu-item>
       <el-menu-item index="cloudMusic">cloudMusic</el-menu-item>
+      <el-menu-item index="sortTemplate">算法图解</el-menu-item>
+      <el-menu-item index="sortSpeed">算法速度统计</el-menu-item>
 <!--      <el-menu-item index="appAdmin">appAdmin</el-menu-item>-->
       <el-menu-item index="appUser">appUser</el-menu-item>
+      <el-menu-item index="koa2">koa2</el-menu-item>
     </el-menu>
     <transition name="transitionBottom">
       <keep-alive>

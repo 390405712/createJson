@@ -81,6 +81,50 @@ let service = {
       }
     });
   },
+
+  query: function () {
+    return xhr({
+      method: 'get',
+      url:url+ '/users/query',
+      setHeaders: {},
+    });
+  },
+
+  find: function (id) {
+    return xhr({
+      method: 'get',
+      url:url+ '/users/find?id='+id,
+      setHeaders: {},
+    });
+  },
+
+  add: function (data) {
+    return xhr({
+      method: 'post',
+      url:url+ '/users/add',
+      setHeaders: {},
+      body: data
+    });
+  },
+
+  update: function (data) {
+    return xhr({
+      method: 'post',
+      url:url+ '/users/update',
+      setHeaders: {},
+      body: data
+    });
+  },
+
+  del: function (data) {
+    return xhr({
+      method: 'post',
+      url:url+ '/users/del',
+      setHeaders: {},
+      body: data
+    });
+  },
+
 };
 
 export default service;

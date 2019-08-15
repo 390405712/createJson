@@ -167,7 +167,6 @@
   export default {
   data() {
     return {
-
       disabledBtn:true,
       info: [
         {valueName: '', value: '', type: 'string', checked: '不加变量'},
@@ -496,11 +495,10 @@
       let _self = this;
       _self.disabledBtn = !_self.disabledBtn;
       clearInterval(timer)
-    }
+    },
   },
   mounted() {
     let _self = this;
-    // _self.setTimerFn();
     if (window.localStorage.getItem('info')) {
       _self.info = JSON.parse(window.localStorage.getItem('info'));
     };

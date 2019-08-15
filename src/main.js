@@ -11,8 +11,9 @@ import rules from './assets/rules'
 import JsonViewer from 'vue-json-viewer'
 import store from './vuex'
 Vue.use(JsonViewer)
+Vue.prototype.$store = store;
 Vue.prototype.$rules = rules;
-Vue.prototype.$echarts = echarts
+Vue.prototype.$echarts = echarts;
 Vue.use(ElementUI);
 Vue.config.productionTip = false
 
